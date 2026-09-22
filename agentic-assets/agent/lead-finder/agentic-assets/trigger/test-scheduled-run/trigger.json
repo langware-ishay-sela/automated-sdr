@@ -1,0 +1,16 @@
+{
+  "name": "test scheduled run",
+  "schedule": {
+    "every": "cron",
+    "expr": "0 9 * * *",
+    "timezone": "Asia/Jerusalem",
+    "runs_on": "fd7becb8-d7cf-4072-8cc4-6733ccc6ac35"
+  },
+  "actions": [
+    {
+      "run_agent": {
+        "prompt": "say hello 100 times"
+      }
+    }
+  ]
+}
