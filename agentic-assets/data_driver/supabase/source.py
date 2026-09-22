@@ -15,8 +15,9 @@ the ingestor's digest absorbing the rows that have not changed. A table that gro
 nothing reports. No cursor is carried between passes (``durable_cursor`` is False) because
 PostgREST has no change feed, and a key-ordered offset would step over a row inserted behind it.
 
-The key is never config. It is declared in the manifest's ``auth`` and Flowpad resolves it — the
-machine secret ``ingest_api.supabase``, or ``api_key`` in the store this source is bound to.
+The key is never config. The manifest declares it and Flowpad resolves it, from the ``supabase``
+connection this instance already holds (``SUPABASE_API_KEY``) — the same credential a worker
+process reads, in the owning agent's project or the user scope.
 """
 from __future__ import annotations
 
@@ -37,9 +38,10 @@ from flow_sdk.sources.protocols import Verdict
 from flow_sdk.sources.values.items import FeedItemData, SourceItemSpec
 from flow_sdk.sources.values.origin import CloudOrigin
 
-#: Where the application keeps the key: a MACHINE secret, because a Supabase project is account
-#: bound and an ingest source has no project of its own to hold a project-scoped credential.
-SECRET_NAME = "ingest_api.supabase"
+#: Flowpad's own Supabase connection, and the variable in it this source reads. Named here so the
+#: refusal below can say WHERE to put the key rather than only that there isn't one.
+CREDENTIAL = "supabase"
+CREDENTIAL_VAR = "SUPABASE_API_KEY"
 #: PostgREST's ceiling for one round-trip. Never a retry budget — there is no retry.
 REQUEST_TIMEOUT_SECONDS = 20
 #: Rows one pass reads when the config names no other number.
@@ -50,9 +52,9 @@ DEFAULT_ID_COLUMN = "id"
 TITLE_COLUMNS = ("title", "name", "subject", "full_name", "company_name", "email")
 
 _NO_KEY = (
-    f"No Supabase API key. Flowpad holds it, not this form: store the project's service-role key "
-    f"(or its anon key, for tables a reader may see) as the machine secret '{SECRET_NAME}', or as "
-    f"'api_key' in the secret store this source is bound to."
+    f"No Supabase API key. Flowpad holds it, not this form: set {CREDENTIAL_VAR} on the "
+    f"'{CREDENTIAL}' connection (flow connections list). A service-role key reads a table outright; "
+    f"an anon key reads only what row-level security lets an anonymous reader see."
 )
 
 #: A SQL identifier. These reach PostgREST as query parameters, so the pattern is what keeps a
@@ -326,7 +328,8 @@ __all__ = [
     "DEFAULT_MAX_ROWS",
     "DEFAULT_SCHEMA",
     "REQUEST_TIMEOUT_SECONDS",
-    "SECRET_NAME",
+    "CREDENTIAL",
+    "CREDENTIAL_VAR",
     "TITLE_COLUMNS",
     "SupabaseConfig",
     "SupabaseRowData",

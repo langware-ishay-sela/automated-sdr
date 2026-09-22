@@ -4,11 +4,12 @@
   "ns": "langware",
   "title": "Supabase",
   "icon_name": "Database",
-  "description": "Rows of one Supabase table, over PostgREST. The row's primary key is the record's identity, so editing a row in Supabase updates the record in place. The API key is Flowpad's to hold, never a field on this form.",
+  "description": "Rows of one Supabase table, over PostgREST. The row's primary key is the record's identity, so editing a row in Supabase updates the record in place. The API key comes from Flowpad's own Supabase connection, never from this form.",
   "kind": "datasource.api.supabase",
   "auth": {
-    "secrets": {
-      "api_key": "ingest_api.supabase"
+    "credential": "supabase",
+    "vars": {
+      "api_key": "SUPABASE_API_KEY"
     }
   },
   "reflect": [
