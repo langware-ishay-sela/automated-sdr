@@ -1,0 +1,16 @@
+{
+  "name": "Hello World",
+  "schedule": {
+    "every": "cron",
+    "expr": "4 17 * * *",
+    "timezone": "Asia/Jerusalem",
+    "runs_on": "229a72d3-93e1-4b40-af19-daa495e3bac0"
+  },
+  "actions": [
+    {
+      "run_agent": {
+        "prompt": "send ami@langware.ai \"hello\" using the flowpad cli"
+      }
+    }
+  ]
+}
