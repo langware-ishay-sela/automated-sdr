@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "name": "supabase",
+  "ns": "langware",
+  "title": "Supabase",
+  "icon_name": "Database",
+  "description": "Rows of one Supabase table, over PostgREST. The row's primary key is the record's identity, so editing a row in Supabase updates the record in place. The API key is Flowpad's to hold, never a field on this form.",
+  "kind": "datasource.api.supabase",
+  "auth": {
+    "secrets": {
+      "api_key": "ingest_api.supabase"
+    }
+  },
+  "reflect": [
+    "record"
+  ],
+  "config": {
+    "project_url": {
+      "type": "text",
+      "account_key": true,
+      "label": "Project URL",
+      "placeholder": "https://abcdefghijkl.supabase.co",
+      "hint": "Supabase → Project Settings → Data API → Project URL. This names WHICH Supabase project the source serves. A self-hosted PostgREST gateway works too."
+    },
+    "table": {
+      "type": "text",
+      "choices": true,
+      "label": "Table",
+      "placeholder": "leads",
+      "hint": "One source reads one table. Pick from what the key can see, or type the name. Watching two tables? Add two sources."
+    },
+    "db_schema": {
+      "type": "text",
+      "label": "Schema",
+      "placeholder": "public",
+      "hint": "Only a schema exposed in Data API settings can be read. Defaults to public."
+    },
+    "id_column": {
+      "type": "text",
+      "label": "Key column",
+      "placeholder": "id",
+      "hint": "The column whose value identifies a row. Get this wrong and edits mint new records instead of updating them."
+    },
+    "order_column": {
+      "type": "text",
+      "label": "Newest-first column",
+      "placeholder": "created_at",
+      "hint": "What 'newest' means here, and where a record's date comes from. Leave empty to order by the key column."
+    },
+    "title_column": {
+      "type": "text",
+      "label": "Title column",
+      "placeholder": "company_name",
+      "hint": "Which column names the record. Left empty, the source takes title / name / subject / email if the row has one."
+    },
+    "columns": {
+      "type": "text",
+      "advanced": true,
+      "label": "Columns",
+      "placeholder": "*",
+      "hint": "A PostgREST select list: id,company_name,status — or an embed such as id,owner(name). Defaults to every column."
+    },
+    "filters": {
+      "type": "lines",
+      "label": "Filters",
+      "placeholder": "status=eq.new",
+      "hint": "PostgREST filters, one per line: status=eq.new, score=gte.80. All of them must hold."
+    },
+    "max_rows": {
+      "type": "number",
+      "advanced": true,
+      "label": "Rows per pass",
+      "placeholder": "200",
+      "hint": "The newest N rows each pass. A ceiling, not a queue: a table that grows by more than this between passes leaves its tail unread."
+    }
+  }
+}

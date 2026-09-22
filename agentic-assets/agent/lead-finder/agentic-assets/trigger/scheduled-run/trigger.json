@@ -1,0 +1,16 @@
+{
+  "name": "Scheduled run",
+  "schedule": {
+    "every": "cron",
+    "expr": "36 16 * * *",
+    "timezone": "Asia/Jerusalem",
+    "runs_on": "42c4784e-05d1-4654-8a2f-007b535a91fd"
+  },
+  "actions": [
+    {
+      "run_agent": {
+        "prompt": "Search briefly and send ami@langware.ai via flowpad a brief summary"
+      }
+    }
+  ]
+}

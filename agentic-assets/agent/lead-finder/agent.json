@@ -1,0 +1,17 @@
+{
+  "type": "agent",
+  "id": "2a21592e-ad84-4227-8ae7-728a40e787ea",
+  "name": "lead-finder",
+  "description": "",
+  "skills": [],
+  "mcp_servers": [],
+  "subagents": [],
+  "additional_dirs": [],
+  "load_flowpad_assistant": false,
+  "cli_options": {},
+  "enabled": true,
+  "intro": "",
+  "auto_launch": false,
+  "auto_launch_prompt": "",
+  "title": "Lead Finder"
+}
